@@ -1,17 +1,17 @@
-// Bring in CSS Module class names (hashed at build time) from utils.module.css
+//Bring in CSS Module class names (hashed at build time) from utils.module.css
 import utilStyles from '../../styles/utils.module.css';
 // Bring in Next.js Head so this page can set the browser tab title
 import Head from 'next/head';
-// Bring in the shared Layout wrapper used around the post content
+//Bring in the shared Layout wrapper used around the post content
 import Layout from '../../components/layout';
-// Bring in helpers: getAllIds lists every post, getData loads one post
+//Bring in helpers: getAllIds lists every post, getData loads one post
 import { getAllIds, getData } from '../../lib/posts';
-// Bring in the Date component that formats a post's date string
+//Bring in the Date component that formats a post's date string
 import Date from '../../components/date';
 
 // The Post page component; postData is the object from getStaticProps for this id
 export default function Post({ postData }) {
-    // Give React the JSX tree to display for this post
+    //Give React the JSX tree to display for this post
     return (
       <Layout>
         <Head>
@@ -28,29 +28,32 @@ export default function Post({ postData }) {
     );
   }
 
-// Next.js calls this at build time to learn which /posts/[id] URLs to pre-render
+//ext.js calls this at build time to learn which /posts/[id] URLs to pre-render
 export async function getStaticPaths() {
-  // Build the list of path objects, each shaped like { params: { id: 'file-name' } }
+
+  //Build the list of path objects, each shaped like { params: { id: 'file-name' } }
   const paths = await getAllIds();
-  // Tell Next.js which routes exist and how to handle unknown ids
+
+  //Tell Next.js which routes exist and how to handle unknown ids
   return {
-    // Same as paths: paths — each entry becomes a static HTML page
+    //same as paths: paths — each entry becomes a static HTML page
     paths,
-    // Unknown ids show a 404 instead of generating a page at request time
+    //Unknown ids show a 404 instead of generating a page at request time
     fallback: false,
   };
 }
 
-// Next.js calls this at build time for each path; params.id is the markdown file name
+//Next.js calls this at build time for each path; params.id is the markdown file name
 export async function getStaticProps({ params }) {
-    // Wait for the markdown to be read, parsed, and converted to HTML for this id
+    //Wait for the markdown to be read, parsed, and converted to HTML for this id
     const postData = await getData(params.id);
    
-    // Send that post object back to Next.js so it can pass it into Post
+    //Send that post object back to Next.js so it can pass it into Post
     return {
-      // props is the object Next.js injects as arguments to Post
+
+      //props is the object Next.js injects as arguments to Post
       props: {
-        // Same as postData: postData — Post will receive title, date, and contentHtml
+        //Same as postData: postData — Post will receive title, date, and contentHtml
         postData,
       },
     };
